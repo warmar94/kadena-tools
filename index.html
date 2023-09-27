@@ -1,15 +1,14 @@
 <html>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <head>
-    <title>Kadena Balance Checker</title>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <title>Kadena Balance Checker MillionMiner</title>
+    <script src="https://theslothsnft.com/wp-content/uploads/balance_checker/code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://theslothsnft.com/wp-content/uploads/balance_checker/cdn.jsdelivr.net/npm/semantic-ui%402.4.2/dist/semantic.min.css">
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pact-lang-api@4.1.2/pact-lang-api-global.min.js"></script>
+    <script src="https://theslothsnft.com/wp-content/uploads/balance_checker/cdn.jsdelivr.net/npm/semantic-ui%402.4.2/dist/semantic.min.js"></script>
+    <script src="https://theslothsnft.com/wp-content/uploads/balance_checker/cdn.jsdelivr.net/npm/pact-lang-api%404.1.2/pact-lang-api-global.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <script>
-
     function attachCell(tag, value, parentId, cellId){
       var node = document.createElement(tag);
       var textnode = document.createTextNode(value);
@@ -78,7 +77,7 @@
         let totalBal = Object.values(chainBal).reduce((accum, cum) => accum+cum, 0);
         const balanceElem = document.getElementById(`chain-${chainId}-balance-data`);
         const guardElem = document.getElementById(`chain-${chainId}-guard-data`);
-        attachCell("h4", `Total Balance of ${acctName}: ${totalBal} KDA`, "total", `total-value`)
+        attachCell("h4", `Total Balance: ${totalBal} Coin`, "total", `total-value`)
         if (result.status==="success"){
           balanceElem.textContent = bal;
           balanceElem.className = "";
@@ -107,25 +106,25 @@
            }
          }
         } else if (result.status==="failure" && result.error.message.slice(0,24)==="with-read: row not found"){
-          balanceElem.textContent = "N/A"
+          balanceElem.textContent = "0"
           balanceElem.className = "warning";
-          guardElem.textContent = "Doesn't Exist"
+          guardElem.textContent = "There's no Coins on this chain"
           guardElem.className = "warning";
         } else {
-          balanceElem.textContent = "N/A"
+          balanceElem.textContent = "0"
           balanceElem.className = "error";
           guardElem.textContent = "Request Failed"
           guardElem.className = "error";
         }
       } catch(e){
         console.log(e)
-        document.getElementById(`chain-${chainId}-balance-data`).textContent = "N/A"
+        document.getElementById(`chain-${chainId}-balance-data`).textContent = "0"
         document.getElementById(`chain-${chainId}-balance-data`).className = "error";
         document.getElementById(`chain-${chainId}-guard-data`).textContent = "Request Failed"
         document.getElementById(`chain-${chainId}-guard-data`).className = "error";
       }
     }
-
+  
     window.addEventListener('load', function (event) {
       if (localStorage.getItem("version")==="1" && localStorage.getItem("kadena-server")){
          document.getElementById("server").value = localStorage.getItem("kadena-server");
@@ -158,6 +157,46 @@
       onClick();
     }, false);
 
+    function api() {
+        document.getElementById("server").value = "api.chainweb.com";
+    }
+    
+    function kda() {
+        document.getElementById("token").value = "coin";
+    }
+
+    function kdx() {
+        document.getElementById("token").value = "kaddex.kdx";
+    }
+    
+    function kds() {
+        document.getElementById("token").value = "kdlaunch.kdswap-token";
+    }
+
+    function kdl() {
+        document.getElementById("token").value = "kdlaunch.token";
+    }
+
+    function doc() {
+        document.getElementById("token").value = "free.docu";
+    }
+
+    function arkd() {
+        document.getElementById("token").value = "arkade.token";
+    }
+
+    function hype() {
+        document.getElementById("token").value = "hypercent.prod-hype-coin";
+    }
+
+
+    function changeToken(value) {
+        var selectBox = document.getElementById('token');
+        selectBox.value = value;
+    }
+
+
+
     async function onClick() {
       const server = document.getElementById('server').value;
       const token = document.getElementById('token').value;
@@ -173,7 +212,7 @@
         localStorage.setItem("kadena-account", document.getElementById('account').value);
         attachCell("tr", "", "chain-table", "chain-header");
         attachCell("th", "Chain ID", "chain-header", "chainId-header");
-        attachCell("th", "Guard", "chain-header", "guard-header");
+        attachCell("th", "Keys", "chain-header", "guard-header");
         attachCell("th", "Balance", "chain-header", "balance-header");
         const acctName = JSON.stringify(document.getElementById('account').value);
         chainIds.forEach(id => {
@@ -185,62 +224,105 @@
         });
       }
     }
-
     document.addEventListener('click', async function (event) {
       chainBal = {}
       if (!event.target.matches('#balance')) return;
       event.preventDefault();
       onClick();
     }, false);
-
   </script>
 </head>
 <body>
     <div id="main">
       <div class="container">
-          <h1>Kadena Balance Checker</h1>
+        <br>
+        <a href="https://www.millionminer.com/" target="_blank">
+          <img alt="Qries" src="logo.png" width="512" height="77">
+        </a>
+        <h1>Kadena Blockchain Tools</h1>
+          <br>
+          <br>
           <div id="subhead">
-            <span class="headlink">Balance Checker</span>
-            <a class="headlink" href="modules.html">Code Viewer</a>
+            <a class="headlink" href="code-viewer.html">Code Viewer</a>
+            <a class="headlink" href="wallet-history.html">Wallet History</a>
+            <a class="headlink" href="tx-scan.html">TX Scan</a>
           </div>
+          <br> 
           <form id ="kadena-form" class="ui form">
             <div id="node-field" class="field">
-                <label>Target Chainweb Server</label>
-                <input type="text" id="server" placeholder="Enter Your Node Server">
+                <label>Choose API Provider</label>
+                <div class="styled-select">
+                    <select id="server">
+                        <option value="api.chainweb.com">api.chainweb.com</option>
+                    </select>
+                </div>
             </div>
+            <br>
             <div id="token-field" class="field">
-              <label>Token Name</label>
-              <input type="text" id="token" placeholder="Enter the name of the token contract" value="coin" >
+                <label>Select Your Coin</label>
+                <div class="styled-select">
+                    <select id="token">
+                        <option value="">Select a token</option>
+                        <option value="coin">KDA</option>
+                        <option value="kaddex.kdx">KDX</option>
+                        <option value="kdlaunch.kdswap-token">KDS</option>
+                        <option value="kdlaunch.token">KDL</option>
+                        <option value="free.docu">DOC</option>
+                        <option value="arkade.token">ARKD</option>
+                        <option value="hypercent.prod-hype-coin">HYPE</option>
+                    </select>
+                </div>
+                <br>
+                <br>
+                <div id="token-icons">
+                    <img src="images/kda.png" onclick="changeToken('coin')" alt="KDA" />
+                    <img src="images/kdx.png" onclick="changeToken('kaddex.kdx')" alt="KDX" />
+                    <img src="images/kds.png" onclick="changeToken('kdlaunch.kdswap-token')" alt="KDS" />
+                    <img src="images/kdl.png" onclick="changeToken('kdlaunch.token')" alt="KDL" />
+                    <img src="images/doc.png" onclick="changeToken('free.docu')" alt="DOC" />
+                    <img src="images/arkd.png" onclick="changeToken('arkade.token')" alt="ARKD" />
+                    <img src="images/hype.png" onclick="changeToken('hypercent.prod-hype-coin')" alt="HYPE" />
+                </div>
             </div>
+            <br>
+            <br>
             <div id="account-field" class="field">
-              <label>Your Account Name</label>
-              <input type="text" id="account" placeholder="Enter Your Account Name">
+              <label>Kadena Wallet</label>
+              <input type="text" id="account" placeholder="Enter Your Wallet Adress">
               <div id="acct-err" class="ui center error message">
                 <div class="header">Account name is at least 3 characters</div>
               </div>
             </div>
-          <button id="balance" class="ui primary button">Check Balance</button>
+          <button id="balance" style="background-color:#0B4EAD" class="ui primary button">Check Balance</button>
+          <div class="total"></div>
+            <div id="total"/>
+          </div>
           </form>
           <div class="result">
             <table class = "ui very basic center collapsing table" id="data-table">
               <thead id="chain-table"/>
               <tbody id="balance-data"/>
             </table>
-            <div id="total"/>
           </div>
     </div>
 </body>
 <style>
 
 .container {
+  background-color: rgb(255, 250, 243);
   text-align: center;
   margin-top: 20px;
+  border: 5px solid #12A0FD;
+  border-radius: 10px;
 }
 .result {
  margin-top: 20px;
 }
 .check-button {
   margin-top: 15px;
+}
+.total {
+  margin-top: 10px;
 }
 .field input {
   margin-top: 5px;
@@ -256,7 +338,6 @@ table#data-table {
   margin-left:auto;
   margin-right:auto;
 }
-
 table#data-table th{
   text-align: center;
   width: 100px;
@@ -267,13 +348,50 @@ table#data-table td{
 }
 #subhead {
 margin-top: -10px;
+margin-bottom: 25px;
+}
+#subhead2 {
+margin-top: -10px;
 margin-bottom: 10px;
 }
 .headlink {
   padding: 1em;
+  color: black;
 }
 span.headlink {
-  color: lightgrey;
+  color: black;
 }
+.styled-select {
+    display: inline-block;
+    overflow: hidden;
+    background: #fafafa;
+    border-radius: 3px;
+    border: 1px solid #e2e2e2;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.styled-select:hover {
+    box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.styled-select select {
+    padding: 0.8em;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    color: #7b7a7a;
+    font-size: 1em;
+    appearance: none;
+    cursor: pointer;
+}
+
+.styled-select select:focus {
+    outline: none;
+}
+
+
 </style>
 </html>

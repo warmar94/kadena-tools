@@ -1,16 +1,13 @@
-# Kadena Balance Checker
-Webpage to check account balance on Kadena mainnet. 
+﻿# kadena_balance_tool
+ 
+This is a Kadena Blockchain Tool forked from balance.chainweb.com
 
-## Open file on browser
+(I just added some extra coin option and made it bit more user friendly)
 
-```
-open index.html
-```
+Feel free to add any commitment if you wish to help me design the page or make changes..
 
-## Docker
+To buy an ASIC Miner: www.millionminer.com
 
-```
-docker build -t kadena .
-docker run --name kadena -p 8080:80 kadena
-```
-Once built, visit http://localhost:8080
+DEMO Page: https://warmar94.github.io/kadena_balance_tool/index.html
+
+The code can integrated into any website..
